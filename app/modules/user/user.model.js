@@ -6,13 +6,13 @@ module.exports = (sequelize, DataTypes, Sequelize) => {
     "User",
     {
       id: {
-        type: DataTypes.INTEGER(10),
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        allowNull: true,
+        allowNull: false,
       },
       
-      FirstName: {
+      Name: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: false,
@@ -20,14 +20,13 @@ module.exports = (sequelize, DataTypes, Sequelize) => {
           len: [2, 50], // Minimum 2, Maximum 50 characters
         },
       },
-      LastName: {
+     
+      Username: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: false,
-        validate: {
-          len: [2, 50], // Minimum 2, Maximum 50 characters
-        },
       },
+
       image: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -44,34 +43,30 @@ module.exports = (sequelize, DataTypes, Sequelize) => {
         allowNull: false, 
       },
 
-      Phone: {
+      Contact: {
         type: DataTypes.INTEGER,
         allowNull: false, 
       },
 
-      Assigned : {
+      Property : {
         type: DataTypes.STRING,
         allowNull: true, 
       },
-      CreatedOn : {
-        type: DataTypes.STRING,
-        allowNull: true, 
-      },
+
       Status : {
         type: DataTypes.STRING,
         allowNull: true, 
       },
 
-      Profile : {
-        type: DataTypes.STRING,
-        allowNull: true, 
-        defaultValue: "active",
-      },
     
       Role: {
-        type: DataTypes.ENUM("student", "employee", "admin", "superAdmin"),
+        type: DataTypes.STRING,
         allowNull: true,
-        defaultValue: "student",
+      },    
+
+      Address: {
+        type: DataTypes.STRING,
+        allowNull: true,
       }      
       
     },

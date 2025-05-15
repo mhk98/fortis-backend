@@ -8,7 +8,7 @@ const { DataTypes } = require("sequelize");
 // Define models
 db.user = require("../app/modules/user/user.model")(db.sequelize, DataTypes);
 
-db.cashIn = require("../app/modules/cashIn/cashIn.model")(db.sequelize, DataTypes);
+// db.cashIn = require("../app/modules/cashIn/cashIn.model")(db.sequelize, DataTypes);
 
 // ✅ StudentComment - StudentReply association (WITH correct alias)
 
