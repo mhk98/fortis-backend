@@ -1,6 +1,7 @@
 const catchAsync = require("../../../shared/catchAsync");
 const pick = require("../../../shared/pick");
 const sendResponse = require("../../../shared/sendResponse");
+const { UserFilterAbleFileds } = require("./user.constants");
 const UserService = require("./user.service");
 // const { UserService } = require("./user.service");
 
@@ -29,19 +30,15 @@ const login = catchAsync(async (req, res) => {
 })
 
 const register = catchAsync(async (req, res) => {
-  const { FirstName, LastName, Email, Password, Phone, First_Name, Last_Name } = req.body;
+  const { Name, Username, Email, Password, Contact, Property, Status, Role, Address } = req.body;
 
   const data = {
-    FirstName,
-    LastName,
-    Email,
-    Password,
-    Phone,
-    CreatedOn: `${First_Name} ${Last_Name}`,
+    Name, Username, Email, Password, Contact, Property, Status, Role, Address,
     image: req.file ? req.file.path : undefined,
   };
 
   console.log("Registerdata", data);
+  console.log("file", req.file);
 
   const result = await UserService.register(data);
 
@@ -55,11 +52,14 @@ const register = catchAsync(async (req, res) => {
 
 
 
-const getAllUserFromDB = catchAsync(async (req, res) => {
+const getAllFromDB = catchAsync(async (req, res) => {
 
+  const filters = pick(req.query, UserFilterAbleFileds);
   const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
+  console.log('filters', req.query)
 
-  const result = await UserService.getAllUserFromDB( options);
+
+  const result = await UserService.getAllFromDB(filters, options);
   sendResponse(res, {
       statusCode: 200,
       success: true,
@@ -85,17 +85,18 @@ const getUserById = catchAsync(async (req, res) => {
 const updateUserFromDB = catchAsync(async (req, res) => {
 const {id} = req.params;
 console.log("userId", id);
-const {FirstName, LastName, Email, Password, Phone, Role, Profile, CreatedOn  } = req.body;
-console.log(req.body);
+const {Name, Username, Email, Password, Contact, Property, Status, Role, Address  } = req.body;
+console.log("userUpdateData", req.body);
 const data = {
-  FirstName: FirstName === "" ? undefined : FirstName,
-  LastName: LastName === "" ? undefined : LastName,
+  Name: Name === "" ? undefined : Name,
+  Username: Username === "" ? undefined : Username,
   Email: Email === "" ? undefined : Email,
   Password: Password === "" ? undefined : Password,
-  Phone: Phone === "" ? undefined : Phone,
+  Contact: Contact === "" ? undefined : Contact,
   Role: Role === "" ? undefined : Role,
-  Profile: Profile === "" ? undefined : Profile,
-  CreatedOn: CreatedOn === "" ? undefined : CreatedOn,
+  Property: Property === "" ? undefined : Property,
+  Status: Status === "" ? undefined : Status,
+  Address: Address === "" ? undefined : Address,
   image: req.file === undefined ? undefined : req.file.path,
 }
 
@@ -114,7 +115,7 @@ console.log(id);
 
 const deleteUserFromDB = catchAsync(async (req, res) => {
 
-  const result = await UserService.deleteIdFromDB(req.params.id);
+  const result = await UserService.deleteUserFromDB(req.params.id);
   sendResponse(res, {
       statusCode: 200,
       success: true,
@@ -137,7 +138,7 @@ const updateUserPasswordFromDB = catchAsync(async (req, res) => {
 
 
 const UserController = {
-  getAllUserFromDB,
+  getAllFromDB,
   login,
   register,
   getUserById,

@@ -7,9 +7,9 @@ const router = require('express').Router();
 // Define routes
 router.post('/login', UserController.login);
 router.post('/register', uploadSingle, UserController.register);
-router.get('/', UserController.getAllUserFromDB); // This gets all users
+router.get('/', UserController.getAllFromDB); // This gets all users
 router.get('/:id',  UserController.getUserById); // Use :id to get a user by ID
-router.delete('/:id', auth( ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN), UserController.deleteUserFromDB);
+router.delete('/:id', UserController.deleteUserFromDB);
 router.put('/:id', uploadSingle, UserController.updateUserFromDB);
 router.put('/change-password/:id',  UserController.updateUserPasswordFromDB);
 

@@ -1,4 +1,4 @@
-const { where } = require("sequelize");
+const { where, Op } = require("sequelize");
 const { generateToken } = require("../../../helpers/jwtHelpers");
 const paginationHelpers = require("../../../helpers/paginationHelper");
 const db = require("../../../models");
@@ -16,7 +16,7 @@ const ApiError = require("../../../error/ApiError");
 const login = async (data) => {
 
   const { Email, Password } = data;
-  console.log(data);
+  console.log("login data", data);
 
   // Validate request data
   if (!Email || !Password) {
@@ -72,35 +72,114 @@ const register = async (data) => {
 };
 
 
-const getAllUserFromDB = async ( options) => {
+// const getAllUserFromDB = async ( options) => {
+//   const { page, limit, skip } = paginationHelpers.calculatePagination(options);
+
+//   const whereConditions = {};
+
+
+//   const result = await User.findAll({
+//       where: whereConditions,
+//       offset: skip,
+//       limit,
+//       order: options.sortBy && options.sortOrder
+//           ? [[options.sortBy, options.sortOrder]]
+//           : [['createdAt', 'DESC']],
+//   });
+
+//   const total = await User.count({
+//       where: whereConditions,
+//   });
+
+//   return {
+//       meta: {
+//           total,
+//           page,
+//           limit
+//       },
+//       data: result
+//   };
+// };
+
+
+const getAllFromDB = async (filters, options) => {
   const { page, limit, skip } = paginationHelpers.calculatePagination(options);
+  const { searchTerm, ...filterData } = filters;
 
-  const whereConditions = {};
+  let andConditions = [];
+  
+  // Match `Name` or `Email` starting with the search term
+  if (searchTerm) {
+    andConditions.push({
+      [Op.or]: [
+        { Name: { [Op.like]: `${searchTerm}%` } },
+        { Email: { [Op.like]: `${searchTerm}%` } },
+        { Username: { [Op.like]: `${searchTerm}%` } },
+        { Role: { [Op.like]: `${searchTerm}%` } },
+      ]
+    });
+  }
+  
 
+  if (Object.keys(filterData).length > 0) {
+    andConditions.push({
+      [Op.and]: Object.entries(filterData).map(([key, value]) => ({
+        [key]: { [Op.eq]: value },
+      })),
+    });
+  }
 
-  const result = await User.findAll({
+  let whereConditions = andConditions.length > 0 ? { [Op.and]: andConditions } : {};
+
+  // Try to find User matching `title`
+  let result = await User.findAll({
+    where: whereConditions,
+    offset: skip,
+    limit,
+    order: options.sortBy && options.sortOrder
+      ? [[options.sortBy, options.sortOrder.toUpperCase()]]
+      : [['createdAt', 'ASC']],
+  });
+
+  // If no User are found with `title`, fallback to `tag`
+  if (result.length === 0 && searchTerm) {
+    andConditions = [];
+    // andConditions.push({
+    //   tag: { [Op.like]: `%${searchTerm}%` }, // Matches anywhere in `tag`
+    // });
+
+    if (Object.keys(filterData).length > 0) {
+      andConditions.push({
+        [Op.and]: Object.entries(filterData).map(([key, value]) => ({
+          [key]: { [Op.eq]: value },
+        })),
+      });
+    }
+
+    whereConditions = { [Op.and]: andConditions };
+
+    result = await User.findAll({
       where: whereConditions,
       offset: skip,
       limit,
       order: options.sortBy && options.sortOrder
-          ? [[options.sortBy, options.sortOrder]]
-          : [['createdAt', 'DESC']],
-  });
+        ? [[options.sortBy, options.sortOrder.toUpperCase()]]
+        : [['createdAt', 'ASC']],
+    });
+  }
 
-  const total = await User.count({
-      where: whereConditions,
-  });
+  const total = await User.count({ where: whereConditions });
+
+  // If no User are found in both `title` and `tag`
+  if (result.length === 0) {
+    throw new ApiError(404, "User not found");
+  }
 
   return {
-      meta: {
-          total,
-          page,
-          limit
-      },
-      data: result
+    meta: { total, page, limit },
+    data: result,
   };
 };
-
 
 const getUserById = async (id) => {
   
@@ -118,7 +197,7 @@ const deleteUserFromDB = async (id) => {
   const result = await User.destroy(
     {
       where:{
-        Id:id
+        id:id
       }
     }
   )
@@ -179,7 +258,7 @@ const updateUserPasswordFromDB = async (id, payload) => {
 
 
  const UserService = {
-  getAllUserFromDB,
+  getAllFromDB,
   login,
   register,
   deleteUserFromDB,

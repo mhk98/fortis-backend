@@ -26,12 +26,6 @@ module.exports = (sequelize, DataTypes, Sequelize) => {
         allowNull: true,
         unique: false,
       },
-
-      image: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        unique: false,
-      },
       
       Email: {
         type: DataTypes.STRING,
@@ -60,14 +54,19 @@ module.exports = (sequelize, DataTypes, Sequelize) => {
 
     
       Role: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM("operator", "kitchen", "admin", "superAdmin"),
         allowNull: true,
-      },    
+      },   
 
       Address: {
         type: DataTypes.STRING,
         allowNull: true,
-      }      
+      },    
+      
+      image: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       
     },
     {

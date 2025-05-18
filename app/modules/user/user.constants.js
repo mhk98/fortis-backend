@@ -1,8 +1,10 @@
- const UserSearchAbleFields = ['name', , 'startMonth', 'endMonth'];
+ const UserSearchAbleFields = ['searchTerm',];
 
- const UserFilterAbleFileds = ['searchTerm', 'startMonth', 'endMonth'];
+ const UserFilterAbleFileds = ['searchTerm', ];
 
  module.exports = {
     UserSearchAbleFields,
     UserFilterAbleFileds
  }
+
+
