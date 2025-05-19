@@ -9,7 +9,7 @@ const routes = require('./app/routes'); // Import your routes
 const ApiError = require("./error/ApiError");
 
 
-const app = express();
+const app = express()
 
 // Apply CORS Middleware
 app.use(cors({
