@@ -1,6 +1,7 @@
 const express = require('express');
 const UserRoutes = require('../modules/user/user.routes');
-const CashInRoutes = require('../modules/cashIn/cashIn.routes');
+const TblMenuRoutes = require('../modules/tblMenu/tblMenu.routes');
+
 
 
 
@@ -15,8 +16,8 @@ const moduleRoutes = [
   },
   
   {
-    path: "/cashIn",
-    route: CashInRoutes
+    path: "/tblMenu",
+    route: TblMenuRoutes
   },
 
   
