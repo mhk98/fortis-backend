@@ -1,7 +1,6 @@
 const { Op } = require("sequelize");
 const paginationHelpers = require("../../../helpers/paginationHelper");
 const db = require("../../../models");
-const ApiError = require("../../../error/ApiError");
 const TblMenu = db.tblMenu;
 
 
@@ -102,16 +101,16 @@ const getAllFromDB = async (filters, options) => {
   };
 };
 
-// const getAllDataById = async (id) => {
+const getAllDataById = async (id) => {
   
-//     const result = await TblMenu.findAll({
-//       where: {
-//         user_id:id
-//       }
-//     })
+    const result = await TblMenu.findAll({
+      where: {
+        user_id:id
+      }
+    })
   
-//     return result
-//   };
+    return result
+  };
 
 
   const deleteIdFromDB = async (id) => {
@@ -159,7 +158,7 @@ const TblMenuService = {
   insertIntoDB,
   deleteIdFromDB,
   updateOneFromDB,
-  
+  getAllDataById
 };
 
 module.exports = TblMenuService;

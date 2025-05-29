@@ -37,18 +37,18 @@ const getAllFromDB = catchAsync(async (req, res) => {
   })
 })
 
-// const getAllDataById = catchAsync(async (req, res) => {
+const getAllDataById = catchAsync(async (req, res) => {
 
-//   const {id} = req.params;
+  const {id} = req.params;
   
-//   const result = await TblMenuService.getAllDataById(id);
-//   sendResponse(res, {
-//       statusCode: 200,
-//       success: true,
-//       message: "TblMenu data fetch!!",
-//       data: result
-//   })
-// })
+  const result = await TblMenuService.getAllDataById(id);
+  sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "TblMenu data fetch!!",
+      data: result
+  })
+})
 
 
 const updateOneFromDB = catchAsync(async (req, res) => {
@@ -78,6 +78,7 @@ const updateOneFromDB = catchAsync(async (req, res) => {
 
  const TblMenuController = {
   getAllFromDB,
+  getAllDataById,
   insertIntoDB,
   deleteIdFromDB,
   updateOneFromDB

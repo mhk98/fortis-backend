@@ -1,15 +1,14 @@
 const { Op } = require("sequelize");
 const paginationHelpers = require("../../../helpers/paginationHelper");
 const db = require("../../../models");
-const ApiError = require("../../../error/ApiError");
-const TblMenu = db.tblMenu;
+const TblBillPending = db.tblBillPending;
 
 
 
 const insertIntoDB = async (data) => {
 
   console.log("data", data)
-  const result = await TblMenu.create(data);
+  const result = await TblBillPending.create(data);
 
   return result
 };
@@ -18,7 +17,7 @@ const insertIntoDB = async (data) => {
 
 // const getAllFromDB = async () => {
   
-//     const result = await TblMenu.findAll()
+//     const result = await TblBillPending.findAll()
   
 //     return result
 //   };
@@ -51,8 +50,8 @@ const getAllFromDB = async (filters, options) => {
 
   let whereConditions = andConditions.length > 0 ? { [Op.and]: andConditions } : {};
 
-  // Try to find TblMenu matching `title`
-  let result = await TblMenu.findAll({
+  // Try to find TblBillPending matching `title`
+  let result = await TblBillPending.findAll({
     where: whereConditions,        // your filter object
     offset: skip || 0,             // e.g., page * limit
     limit: limit || 10,            // number of records per page
@@ -62,7 +61,7 @@ const getAllFromDB = async (filters, options) => {
   });
   
 
-  // If no TblMenu are found with `title`, fallback to `tag`
+  // If no TblBillPending are found with `title`, fallback to `tag`
   if (result.length === 0 && searchTerm) {
     andConditions = [];
     // andConditions.push({
@@ -79,7 +78,7 @@ const getAllFromDB = async (filters, options) => {
 
     whereConditions = { [Op.and]: andConditions };
 
-    result = await TblMenu.findAll({
+    result = await TblBillPending.findAll({
       where: whereConditions,
       offset: skip,
       limit,
@@ -89,11 +88,11 @@ const getAllFromDB = async (filters, options) => {
     });
   }
 
-  const total = await TblMenu.count({ where: whereConditions });
+  const total = await TblBillPending.count({ where: whereConditions });
 
-  // If no TblMenu are found in both `title` and `tag`
+  // If no TblBillPending are found in both `title` and `tag`
   if (result.length === 0) {
-    throw new ApiError(404, "TblMenu not found");
+    throw new ApiError(404, "TblBillPending not found");
   }
 
   return {
@@ -102,24 +101,24 @@ const getAllFromDB = async (filters, options) => {
   };
 };
 
-// const getAllDataById = async (id) => {
+const getAllDataById = async (id) => {
   
-//     const result = await TblMenu.findAll({
-//       where: {
-//         user_id:id
-//       }
-//     })
+    const result = await TblBillPending.findAll({
+      where: {
+        billNo:id
+      }
+    })
   
-//     return result
-//   };
+    return result
+  };
 
 
   const deleteIdFromDB = async (id) => {
   
-    const result = await TblMenu.destroy(
+    const result = await TblBillPending.destroy(
       {
         where:{
-          id:id
+          billNo:id
         }
       }
     )
@@ -143,9 +142,9 @@ const getAllFromDB = async (filters, options) => {
 
   // }
   
-    const result = await CashIn.update(payload, {
+    const result = await TblBillPending.update(payload, {
       where: {
-        id: id,
+        billNo: id,
       }
     });
   
@@ -154,12 +153,12 @@ const getAllFromDB = async (filters, options) => {
   
 
 
-const TblMenuService = {
+const TblBillPendingService = {
   getAllFromDB,
   insertIntoDB,
   deleteIdFromDB,
   updateOneFromDB,
-  
+  getAllDataById
 };
 
-module.exports = TblMenuService;
+module.exports = TblBillPendingService;

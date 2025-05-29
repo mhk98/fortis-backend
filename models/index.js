@@ -6,9 +6,18 @@ const db = require("../db/db");
 const { DataTypes } = require("sequelize");
 
 // Define models
-db.user = require("../app/modules/user/user.model")(db.sequelize, DataTypes);
-
+db.KOTBill = require("../app/modules/KOTBill/KOTBill.model")(db.sequelize, DataTypes);
+db.tblBillPending = require("../app/modules/tblBillPending/tblBillPending.model")(db.sequelize, DataTypes);
+db.tblDate = require("../app/modules/tblDate/tblDate.model")(db.sequelize, DataTypes);
+db.tblDiscount = require("../app/modules/tblDiscount/tblDiscount.model")(db.sequelize, DataTypes);
+db.tblGuestInfo = require("../app/modules/tblGuestInfo/tblGuestInfo.model")(db.sequelize, DataTypes);
 db.tblMenu = require("../app/modules/tblMenu/tblMenu.model")(db.sequelize, DataTypes);
+db.tblProperty = require("../app/modules/tblProperty/tblProperty.model")(db.sequelize, DataTypes);
+db.tblRestDetails = require("../app/modules/tblRestDetails/tblRestDetails.model")(db.sequelize, DataTypes);
+db.tblRestName = require("../app/modules/tblRestName/tblRestName.model")(db.sequelize, DataTypes);
+db.tblSales = require("../app/modules/tblSales/tblSales.model")(db.sequelize, DataTypes);
+db.tblWaiter = require("../app/modules/tblWaiter/tblWaiter.model")(db.sequelize, DataTypes);
+db.user = require("../app/modules/user/user.model")(db.sequelize, DataTypes);
 
 // ✅ StudentComment - StudentReply association (WITH correct alias)
 
