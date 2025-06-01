@@ -92,7 +92,7 @@ const updateOneFromDB = catchAsync(async (req, res) => {
 
   console.log("data", data)
 
-  if (!Array.isArray(data) || data.length === 0) {
+  if (data.length === 0) {
     throw new ApiError(404, "No items provided");
   }
 

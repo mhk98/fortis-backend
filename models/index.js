@@ -10,6 +10,7 @@ db.KOTBill = require("../app/modules/KOTBill/KOTBill.model")(db.sequelize, DataT
 db.tblBillPending = require("../app/modules/tblBillPending/tblBillPending.model")(db.sequelize, DataTypes);
 db.tblDate = require("../app/modules/tblDate/tblDate.model")(db.sequelize, DataTypes);
 db.tblDiscount = require("../app/modules/tblDiscount/tblDiscount.model")(db.sequelize, DataTypes);
+db.bill1 = require("../app/modules/bill1/bill1.model")(db.sequelize, DataTypes);
 db.tblGuestInfo = require("../app/modules/tblGuestInfo/tblGuestInfo.model")(db.sequelize, DataTypes);
 db.tblMenu = require("../app/modules/tblMenu/tblMenu.model")(db.sequelize, DataTypes);
 db.tblProperty = require("../app/modules/tblProperty/tblProperty.model")(db.sequelize, DataTypes);

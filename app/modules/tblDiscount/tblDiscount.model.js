@@ -2,82 +2,84 @@ module.exports = (sequelize, DataTypes) => {
     const tblDiscount = sequelize.define('tblDiscount', {
       date: {
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: true
      },
 
      tableno: {
         type: DataTypes.STRING(50),
-        allowNull: false
+        allowNull: true
      },
 
      kotno: {
         type: DataTypes.DECIMAL(18, 0),
-        allowNull: false
+        allowNull: true,
+        primaryKey: true,
+         allowNull: false
      },
 
      drate: {
         type: DataTypes.FLOAT,
-        allowNull: false
+        allowNull: true
      },
 
      damount: {
         type: DataTypes.FLOAT,
-        allowNull: false
+        allowNull: true
      },
 
      totalcost: {
         type: DataTypes.FLOAT,
-        allowNull: false
+        allowNull: true
      },
 
      gtotal: {
         type: DataTypes.FLOAT,
-        allowNull: false
+        allowNull: true
      },
 
      Service: {
         type: DataTypes.FLOAT,
-        allowNull: false
+        allowNull: true
      },
 
      tax: {
         type: DataTypes.FLOAT,
-        allowNull: false
+        allowNull: true
      },
 
      stotal: {
         type: DataTypes.FLOAT,
-        allowNull: false
+        allowNull: true
      },
 
      ttotal: {
         type: DataTypes.FLOAT,
-        allowNull: false
+        allowNull: true
      },
 
      serp: {
         type: DataTypes.STRING(50),
-        allowNull: false
+        allowNull: true
      },
 
      taxp: {
         type: DataTypes.STRING(50),
-        allowNull: false
+        allowNull: true
      },
 
      waiterno: {
         type: DataTypes.STRING(50),
-        allowNull: false
+        allowNull: true
      },
 
      time: {
         type: DataTypes.STRING(50),
-        allowNull: false
+        allowNull: true
      },
 
      roomno: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: true
      },
 
      userid: {
@@ -87,7 +89,7 @@ module.exports = (sequelize, DataTypes) => {
 
      KotMain: {
         type: DataTypes.STRING(150),
-        allowNull: false
+        allowNull: true
      },
 
      gName: {
