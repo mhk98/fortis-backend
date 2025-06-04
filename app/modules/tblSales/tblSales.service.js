@@ -367,7 +367,7 @@ const getAllDataById = async (id) => {
   
 
   const updateOneFromDB = async (data) => {
-    const { items, Flug, ResSL, paymode, Chargeto, kotno, billprint } = data;
+    const { items, Flug, ResSL, paymode, Chargeto, kotno, billprint, waiterno } = data;
   
     const transaction = await db.sequelize.transaction();
   
@@ -375,7 +375,7 @@ const getAllDataById = async (id) => {
       // Step 1: Update TblSales Entries
       const salesUpdatePromises = items.map(item => {
         const updateValues = {
-          itemcode: item.itemcode === "" ? undefined : item.itemcode,
+            itemcode: item.itemcode === "" ? undefined : item.itemcode,
             itemname: item.repname === "" ? undefined : item.repname,
             quentity: item.quentity === "" ? undefined : item.quentity,
             unitprice: item.price === "" ? undefined : item.price,
@@ -383,7 +383,7 @@ const getAllDataById = async (id) => {
             date: new Date().toISOString().split('T')[0],
             tableno: item.table === "" ? undefined : item.table,
             roomno: item.room === "" ? undefined : item.room,
-            waiterno: item.waiterno === "" ? undefined : item.waiterno,
+            waiterno: waiterno === "" ? undefined : waiterno,
             time: new Date().toLocaleTimeString().substring(0, 50),
             cancel: 'N',
             paid: 'N',
@@ -455,6 +455,7 @@ const getAllDataById = async (id) => {
           billno: existingTblBillPending.billNo,
           ResSL: existingTblBillPending.ResSL,
           PropertyID: existingTblBillPending.PropertyID,
+          waiterno
         };
   
         const bill1Data = {
@@ -463,6 +464,8 @@ const getAllDataById = async (id) => {
           Chargeto,
           paymode,
           totalprice,
+          waiterno,
+          Roomno:existingTblBillPending.tableNo,
         };
   
         await TblDiscount.create(sharedData, { transaction });
